@@ -24,7 +24,7 @@ mvn clean install
 
 entry point to start the application:
 ```
-test/src/main/java/com/wagawin/test/TestApplication.java
+/src/main/java/com/wagawin/test/TestApplication.java
 ```
 
 Tomcat configured to listen on port 9092
