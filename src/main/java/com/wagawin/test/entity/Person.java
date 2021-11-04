@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "children"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "children", "house"})
 public class Person {
     @Id
     @SequenceGenerator(
@@ -30,7 +30,7 @@ public class Person {
     private String name;
     private Integer age;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "person")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.LAZY)
     private House house;
 
     @OneToMany(cascade = CascadeType.ALL)

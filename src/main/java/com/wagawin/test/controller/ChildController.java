@@ -2,6 +2,7 @@ package com.wagawin.test.controller;
 
 import com.wagawin.test.entity.Child;
 import com.wagawin.test.repository.ChildRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/child")
+@Slf4j
 public class ChildController {
     private static final String ERROR_MESSAGE_404 = "Child with ID = %d is not found";
 
@@ -26,6 +28,7 @@ public class ChildController {
         if (childOptional.isPresent()) {
             return childOptional.get();
         } else {
+            log.error(String.format(ERROR_MESSAGE_404, childId));
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, String.format(ERROR_MESSAGE_404, childId)
             );

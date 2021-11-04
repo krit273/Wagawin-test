@@ -25,7 +25,7 @@ public class House {
     private String zipCode;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @MapsId
     @JsonIgnoreProperties("house")
     private Person person;

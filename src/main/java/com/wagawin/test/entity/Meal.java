@@ -30,6 +30,7 @@ public class Meal {
             generator = "meal_sequence"
     )
     private Long id;
+    private String name;
 
     @Column
     @Type(type="timestamp")
