@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonIgnoreProperties({"house", "children"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "children"})
 public class Person {
     @Id
     @SequenceGenerator(

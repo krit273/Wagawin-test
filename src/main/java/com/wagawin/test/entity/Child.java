@@ -1,6 +1,5 @@
 package com.wagawin.test.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +16,6 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "child_type",
         discriminatorType = DiscriminatorType.INTEGER)
-@JsonIgnoreProperties("person")
 @Table(
         indexes = {
                 @Index(columnList = "person_id", name = "person_idx")
