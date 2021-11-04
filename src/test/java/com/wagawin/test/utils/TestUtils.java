@@ -44,7 +44,7 @@ public class TestUtils {
     public static List<Meal> createMeals(int amountOfMeals) {
         List<Meal> meals = new ArrayList<>();
         IntStream.range(0, amountOfMeals).forEach(i ->
-                meals.add(Meal.builder().invented(faker.date().birthday()).build()));
+                meals.add(Meal.builder().name(faker.food().dish()).invented(faker.date().birthday()).build()));
         return meals;
     }
 
