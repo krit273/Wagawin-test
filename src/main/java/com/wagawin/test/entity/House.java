@@ -14,6 +14,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties("person")
+@Table(
+        indexes = {
+                @Index(columnList = "person_id", name = "person_idx")
+        })
 public class House {
     @Id
     private Long id;

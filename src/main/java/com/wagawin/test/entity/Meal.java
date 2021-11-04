@@ -14,6 +14,10 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(
+        indexes = {
+                @Index(columnList = "child_id", name = "child_idx")
+        })
 public class Meal {
     @Id
     @SequenceGenerator(

@@ -18,6 +18,10 @@ import java.util.List;
 @DiscriminatorColumn(name = "child_type",
         discriminatorType = DiscriminatorType.INTEGER)
 @JsonIgnoreProperties("person")
+@Table(
+        indexes = {
+                @Index(columnList = "person_id", name = "person_idx")
+        })
 public class Child {
     @Id
     @SequenceGenerator(
@@ -34,10 +38,10 @@ public class Child {
     private Integer age;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="person_id")
+    @JoinColumn(name = "person_id")
     private Person person;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id")
+    @JoinColumn(name = "child_id")
     private List<Meal> meals;
 }
