@@ -14,6 +14,7 @@ default credentials:
 username=root
 password=Testbackend273!
 ```
+to use another credentials change application.properties
 ### Build and deploy
 
 To build the application run
