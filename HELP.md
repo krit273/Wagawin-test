@@ -28,3 +28,17 @@ entry point to start the application:
 ```
 
 Tomcat configured to listen on port 9092
+
+### Redis Mac Installation
+With an up-to-date version of Homebrew, install Redis by using the command:
+```
+brew install redis
+```
+
+After installing redis, type from terminal:
+
+```
+redis-server
+```
+
+redis is configured in application.properties

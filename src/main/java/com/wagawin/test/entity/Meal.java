@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -18,7 +19,7 @@ import java.util.Date;
         indexes = {
                 @Index(columnList = "child_id", name = "child_idx")
         })
-public class Meal {
+public class Meal implements Serializable {
     @Id
     @SequenceGenerator(
             name = "meal_sequence",

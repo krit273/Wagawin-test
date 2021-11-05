@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Data
@@ -18,7 +19,7 @@ import javax.persistence.*;
         indexes = {
                 @Index(columnList = "person_id", name = "person_idx")
         })
-public class House {
+public class House implements Serializable {
     @Id
     private Long id;
     private String address;

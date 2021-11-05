@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ import java.util.List;
         indexes = {
                 @Index(columnList = "person_id", name = "person_idx")
         })
-public class Child {
+public class Child implements Serializable {
     @Id
     @SequenceGenerator(
             name = "child_sequence",
@@ -39,7 +40,7 @@ public class Child {
     @JoinColumn(name = "person_id")
     private Person person;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "child_id")
     private List<Meal> meals;
 }
