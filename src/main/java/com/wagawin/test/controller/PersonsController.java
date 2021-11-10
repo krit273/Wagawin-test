@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
@@ -33,7 +32,7 @@ public class PersonsController {
     public Map<Long, Long> getParentSummaryList() {
         List<ParentSummary> parentSummaryList = personRepository.findAll();
         if (!parentSummaryList.isEmpty()) {
-            return getFilledAndOrderedParentSummaryMap(parentSummaryList);
+            return getFilledAndOrderedParentSummary(parentSummaryList);
         } else {
             LOG.error(ERROR_MESSAGE_404);
             throw new ResponseStatusException(
@@ -42,20 +41,17 @@ public class PersonsController {
         }
     }
 
-    private Map<Long, Long> getFilledAndOrderedParentSummaryMap(List<ParentSummary> parentSummaryList) {
+    private Map<Long, Long> getFilledAndOrderedParentSummary(List<ParentSummary> parentSummaryList) {
+        Long maxAmountOfChildren = parentSummaryList.stream()
+                .reduce((first, second) -> second).map(ParentSummary::getAmountOfChildren).get();
+
         Map<Long, Long> parentSummaryMap = parentSummaryList
-                .stream().collect(Collectors.toMap(ParentSummary::getAmountOfChildren, ParentSummary::getAmountOfPersons, (a, b) -> b));
+                .stream().collect(Collectors
+                        .toMap(ParentSummary::getAmountOfChildren, ParentSummary::getAmountOfPersons,
+                                (a, b) -> b, TreeMap::new));
 
-        Long maxAmountOfChildren = Collections.max(parentSummaryMap.entrySet(), Map.Entry.comparingByKey()).getKey();
+        LongStream.range(0, maxAmountOfChildren).forEach(i -> parentSummaryMap.putIfAbsent(i, 0L));
 
-        LongStream.range(0, maxAmountOfChildren).forEach(i -> {
-            if (!parentSummaryMap.containsKey(i)) {
-                parentSummaryMap.put(i, 0L);
-            }
-        });
-        return parentSummaryMap
-                .entrySet().stream()
-                .sorted(Map.Entry.comparingByKey()).
-                        collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        return parentSummaryMap;
     }
 }
