@@ -1,9 +1,10 @@
 package com.wagawin.test.controller;
 
+import com.google.gson.Gson;
 import com.wagawin.test.entity.Child;
-import com.wagawin.test.entity.Son;
 import com.wagawin.test.repository.ChildRepository;
 import com.wagawin.test.utils.TestUtils;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,12 @@ public class ColorMockMvcWithContextTest {
     @MockBean
     private ChildRepository childRepository;
 
+    private static final Gson gson = new Gson();
+
     @Test
-    public void canRetrieveByIdWhenExists() throws Exception {
+    public void canRetrieveSonByIdWhenExists() throws Exception {
         Child testChild = TestUtils.createChild();
-        Son son = TestUtils.createSon(testChild);
+        com.wagawin.test.entity.Son son = TestUtils.createSon(testChild);
         Optional<Child> optionalSon = Optional.of(son);
 
         given(childRepository.findById(1L))
@@ -49,6 +52,31 @@ public class ColorMockMvcWithContextTest {
 
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+
+        Son responseSon = gson.fromJson(response.getContentAsString(), Son.class);
+        Assert.assertEquals(son.getBicycleColor(), responseSon.bicycleColor);
+    }
+
+    @Test
+    public void canRetrieveDaughterByIdWhenExists() throws Exception {
+        Child testChild = TestUtils.createChild();
+        com.wagawin.test.entity.Daughter daughter = TestUtils.createDaughter(testChild);
+        Optional<Child> optionalSon = Optional.of(daughter);
+
+        given(childRepository.findById(1L))
+                .willReturn(optionalSon);
+
+        // when
+        MockHttpServletResponse response = mvc.perform(
+                get("/color/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+
+        // then
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+
+        Daughter responseDaughter = gson.fromJson(response.getContentAsString(), Daughter.class);
+        Assert.assertEquals(daughter.getHairColor(), responseDaughter.hairColor);
     }
 
     @Test
@@ -84,5 +112,13 @@ public class ColorMockMvcWithContextTest {
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
         assertThat(response.getContentAsString()).isEmpty();
+    }
+
+    private static class Son {
+        private String bicycleColor;
+    }
+
+    private static class Daughter {
+        private String hairColor;
     }
 }
