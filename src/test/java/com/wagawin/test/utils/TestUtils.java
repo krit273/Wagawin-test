@@ -13,8 +13,8 @@ public class TestUtils {
     private static final int GLOBAL_AVERAGE_LIFE_EXPECTANCY = 73;
     private static final int CHILDREN_MAX_AGE = 18;
 
-    private static Random rand = new Random();
-    private static Faker faker = new Faker();
+    private static final Random rand = new Random();
+    private static final Faker faker = new Faker();
 
     public static Person createPerson() {
         return Person.builder()

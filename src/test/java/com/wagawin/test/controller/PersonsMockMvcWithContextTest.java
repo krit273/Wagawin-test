@@ -36,7 +36,7 @@ public class PersonsMockMvcWithContextTest {
     public void canRetrieveWhenExists() throws Exception {
         List<ParentSummary> parentSummaryList = TestUtils.createParentSummaryList();
 
-        given(parentSummaryRepository.findParentSummaries())
+        given(parentSummaryRepository.findAll())
                 .willReturn(parentSummaryList);
 
         // when

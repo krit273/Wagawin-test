@@ -24,7 +24,7 @@ import static com.wagawin.test.utils.TestUtils.createPerson;
 public class PopulateTest {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
 
     @Autowired
     private PersonRepository personRepository;

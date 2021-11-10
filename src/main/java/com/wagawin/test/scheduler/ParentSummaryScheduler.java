@@ -17,6 +17,7 @@ public class ParentSummaryScheduler {
     @Scheduled(cron = "0 0/15 * * * ?")
     public void scheduleTaskWithFixedRate() {
         List<ParentSummary> parentSummaryList = parentSummaryRepository.findParentSummaries();
+        parentSummaryRepository.deleteAll();
         parentSummaryRepository.saveAll(parentSummaryList);
     }
 }

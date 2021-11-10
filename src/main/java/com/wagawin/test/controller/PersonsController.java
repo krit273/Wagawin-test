@@ -11,7 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
+
 
 @RestController
 @RequestMapping("/persons")
@@ -24,15 +30,32 @@ public class PersonsController {
     private ParentSummaryRepository personRepository;
 
     @GetMapping("/children")
-    public List<ParentSummary> getParentSummaryList() {
-        List<ParentSummary> parentSummaryList = personRepository.findParentSummaries();
+    public Map<Long, Long> getParentSummaryList() {
+        List<ParentSummary> parentSummaryList = personRepository.findAll();
         if (!parentSummaryList.isEmpty()) {
-            return personRepository.findParentSummaries();
+            return getFilledAndOrderedParentSummaryMap(parentSummaryList);
         } else {
             LOG.error(ERROR_MESSAGE_404);
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, ERROR_MESSAGE_404
             );
         }
+    }
+
+    private Map<Long, Long> getFilledAndOrderedParentSummaryMap(List<ParentSummary> parentSummaryList) {
+        Map<Long, Long> parentSummaryMap = parentSummaryList
+                .stream().collect(Collectors.toMap(ParentSummary::getAmountOfChildren, ParentSummary::getAmountOfPersons, (a, b) -> b));
+
+        Long maxAmountOfChildren = Collections.max(parentSummaryMap.entrySet(), Map.Entry.comparingByKey()).getKey();
+
+        LongStream.range(0, maxAmountOfChildren).forEach(i -> {
+            if (!parentSummaryMap.containsKey(i)) {
+                parentSummaryMap.put(i, 0L);
+            }
+        });
+        return parentSummaryMap
+                .entrySet().stream()
+                .sorted(Map.Entry.comparingByKey()).
+                        collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 }
