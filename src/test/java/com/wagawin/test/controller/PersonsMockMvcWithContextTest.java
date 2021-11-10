@@ -52,7 +52,7 @@ public class PersonsMockMvcWithContextTest {
     @Test
     public void canRetrieveWhenDoesNotExist() throws Exception {
         // given
-        given(parentSummaryRepository.findParentSummaries())
+        given(parentSummaryRepository.findAll())
                 .willReturn(Collections.emptyList());
 
         // when

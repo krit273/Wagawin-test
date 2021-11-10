@@ -24,7 +24,7 @@ public class ParentSummaryRepositoryTest {
     public void findParentSummariesTest() {
         List<ParentSummary> parentSummaryList = TestUtils.createParentSummaryList();
         parentSummaryRepository.saveAll(parentSummaryList);
-        List<ParentSummary> foundParentSummaryList = parentSummaryRepository.findParentSummaries();
+        List<ParentSummary> foundParentSummaryList = parentSummaryRepository.findAll();
 
         Assert.assertFalse(foundParentSummaryList.isEmpty());
     }
