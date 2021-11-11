@@ -11,19 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @SpringBootTest
+@Transactional
 public class ParentSummaryRepositoryTest {
     @Autowired
     private ParentSummaryRepository parentSummaryRepository;
 
     @Test
-    @Transactional
     public void saveParentSummary() {
         List<ParentSummary> parentSummaryList = TestUtils.createParentSummaryList();
         parentSummaryRepository.saveAll(parentSummaryList);
     }
 
     @Test
-    @Transactional
     public void findParentSummariesTest() {
         List<ParentSummary> parentSummaryList = TestUtils.createParentSummaryList();
         parentSummaryRepository.deleteAll();

@@ -8,12 +8,14 @@ import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static com.wagawin.test.utils.TestUtils.createPerson;
 
 @SpringBootTest
+@Transactional
 public class HouseRepositoryTest {
     @Autowired
     private HouseRepository houseRepository;
