@@ -16,6 +16,7 @@ public class ParentSummaryRepositoryTest {
     @Test
     public void findAndSaveParentSummary() {
         List<ParentSummary> parentSummaryList = parentSummaryRepository.findParentSummaries();
+        parentSummaryRepository.deleteAll();
         parentSummaryRepository.saveAll(parentSummaryList);
         List<ParentSummary> foundParentSummaryList = parentSummaryRepository.findAll();
 
