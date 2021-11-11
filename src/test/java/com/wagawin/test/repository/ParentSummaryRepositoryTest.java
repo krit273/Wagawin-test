@@ -1,6 +1,7 @@
 package com.wagawin.test.repository;
 
 import com.wagawin.test.entity.ParentSummary;
+import com.wagawin.test.utils.TestUtils;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,16 @@ public class ParentSummaryRepositoryTest {
     private ParentSummaryRepository parentSummaryRepository;
 
     @Test
-    public void findAndSaveParentSummary() {
-        List<ParentSummary> parentSummaryList = parentSummaryRepository.findParentSummaries();
+    @Transactional(rollbackFor = Exception.class)
+    public void saveParentSummary() {
+        List<ParentSummary> parentSummaryList = TestUtils.createParentSummaryList();
+        parentSummaryRepository.saveAll(parentSummaryList);
+    }
+
+    @Test
+    @Transactional(rollbackFor = Exception.class)
+    public void findParentSummariesTest() {
+        List<ParentSummary> parentSummaryList = TestUtils.createParentSummaryList();
         parentSummaryRepository.deleteAll();
         parentSummaryRepository.saveAll(parentSummaryList);
         List<ParentSummary> foundParentSummaryList = parentSummaryRepository.findAll();
