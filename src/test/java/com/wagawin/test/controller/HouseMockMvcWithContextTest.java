@@ -1,9 +1,11 @@
 package com.wagawin.test.controller;
 
+import com.google.gson.Gson;
 import com.wagawin.test.entity.House;
 import com.wagawin.test.entity.HouseType;
 import com.wagawin.test.repository.HouseRepository;
 import com.wagawin.test.utils.TestUtils;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ public class HouseMockMvcWithContextTest {
     @MockBean
     private HouseRepository houseRepository;
 
+    private static final Gson gson = new Gson();
+
     @Test
     public void canRetrieveByIdWhenExists() throws Exception {
         House testHouse = TestUtils.createHouse(HouseType.FLAT);
@@ -48,6 +52,12 @@ public class HouseMockMvcWithContextTest {
 
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+
+        HouseInfo houseInfo = gson.fromJson(response.getContentAsString(), HouseInfo.class);
+
+        Assert.assertEquals(testHouse.getAddress(), houseInfo.address);
+        Assert.assertEquals(testHouse.getZipCode(), houseInfo.zipCode);
+        Assert.assertEquals(testHouse.getHouseType(), houseInfo.houseType);
     }
 
     @Test
@@ -65,5 +75,12 @@ public class HouseMockMvcWithContextTest {
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
         assertThat(response.getContentAsString()).isEmpty();
+    }
+
+    private static class HouseInfo {
+        private Long id;
+        private String address;
+        private String zipCode;
+        private HouseType houseType;
     }
 }
