@@ -32,7 +32,7 @@ public class PersonsController {
     public Map<Long, Long> getParentSummaryList() {
         List<ParentSummary> parentSummaryList = parentSummaryRepository.findAll();
         if (!parentSummaryList.isEmpty()) {
-            return getFilledAndOrderedParentSummary(parentSummaryList);
+            return getFilledAndOrderedParentSummaries(parentSummaryList);
         } else {
             LOG.error(ERROR_MESSAGE_404);
             throw new ResponseStatusException(
@@ -41,7 +41,7 @@ public class PersonsController {
         }
     }
 
-    private Map<Long, Long> getFilledAndOrderedParentSummary(List<ParentSummary> parentSummaryList) {
+    private Map<Long, Long> getFilledAndOrderedParentSummaries(List<ParentSummary> parentSummaryList) {
         Long maxAmountOfChildren = parentSummaryList.stream()
                 .reduce((first, second) -> second).map(ParentSummary::getAmountOfChildren).get();
 
