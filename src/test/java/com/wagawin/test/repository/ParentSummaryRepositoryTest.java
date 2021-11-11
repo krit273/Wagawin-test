@@ -16,14 +16,14 @@ public class ParentSummaryRepositoryTest {
     private ParentSummaryRepository parentSummaryRepository;
 
     @Test
-    @Transactional()
+    @Transactional
     public void saveParentSummary() {
         List<ParentSummary> parentSummaryList = TestUtils.createParentSummaryList();
         parentSummaryRepository.saveAll(parentSummaryList);
     }
 
     @Test
-    @Transactional()
+    @Transactional
     public void findParentSummariesTest() {
         List<ParentSummary> parentSummaryList = TestUtils.createParentSummaryList();
         parentSummaryRepository.deleteAll();
