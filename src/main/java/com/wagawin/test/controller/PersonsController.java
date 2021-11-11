@@ -26,11 +26,11 @@ public class PersonsController {
     private static final String ERROR_MESSAGE_404 = "ParentSummaries are not found";
 
     @Autowired
-    private ParentSummaryRepository personRepository;
+    private ParentSummaryRepository parentSummaryRepository;
 
     @GetMapping("/children")
     public Map<Long, Long> getParentSummaryList() {
-        List<ParentSummary> parentSummaryList = personRepository.findAll();
+        List<ParentSummary> parentSummaryList = parentSummaryRepository.findAll();
         if (!parentSummaryList.isEmpty()) {
             return getFilledAndOrderedParentSummary(parentSummaryList);
         } else {
