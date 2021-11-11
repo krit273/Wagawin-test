@@ -56,7 +56,7 @@ public class TestUtils {
 
     public static List<ParentSummary> createParentSummaryList() {
         List<ParentSummary> parentSummaryList = new ArrayList<>();
-        LongStream.range(0, 10).forEach(i -> parentSummaryList.add(new ParentSummary(i, rand.nextLong())));
+        LongStream.range(0, 10).forEach(i -> parentSummaryList.add(new ParentSummary(i, (long) rand.nextInt(100))));
         return parentSummaryList;
     }
 }
